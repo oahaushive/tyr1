@@ -91,23 +91,11 @@ public class PoolService {
 		return poolsToReturn;
 	}
 	
-//    public void apiScheduler() {
-//    	TimerTask timerTask = new TimerTask() {
-//    		public void run() {
-//              
-//            }
-//    	};
-//    	Timer timer = new Timer();
-//    	timer.schedule(timerTask, 25000);
-////    	System.out.println("if we made it here we're good");
-//    }
-	
 	public Pool findPoolWithDetails(String poolId) throws IOException {
 		Pool pool = poolRepository.findByPoolId(poolId);
 		if(!poolDetailRepository.findByPoolId(poolId).isEmpty()) {
 			pool.setDetails(poolDetailRepository.findByPoolId(poolId));
 			String currencies = fetchListOfCryptosInPool(poolId);
-//			logger.debug(currencies);
 			setCurrencyForPoolDetail(pool.getDetails(), currencies);
 			setPoolDetailTotals(pool.getDetails());
 			setPoolTotal(pool);
@@ -127,21 +115,14 @@ public class PoolService {
  	}
 	
 	public void setCurrencyForPoolDetail(List<PoolDetail> details, String currencies) throws IOException {
-//		try {
-			Currency[] currencyArray = getCurrencies(currencies);
-			for (PoolDetail detail : details) {
-				for (Currency currency : currencyArray) {
-					if(detail.getCurrencySymbol().equals(currency.getId())){
-						detail.setCurrency(currency);
-					}
+		Currency[] currencyArray = getCurrencies(currencies);
+		for (PoolDetail detail : details) {
+			for (Currency currency : currencyArray) {
+				if (detail.getCurrencySymbol().equals(currency.getId())) {
+					detail.setCurrency(currency);
 				}
 			}
-//			Thread.sleep(1000);
-//			
-//		} catch (InterruptedException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		}
 	}
 	
 	public void updateOrInsertDetail(PoolDetail detailToUpdate) {
