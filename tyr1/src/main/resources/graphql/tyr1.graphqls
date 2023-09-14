@@ -1,0 +1,132 @@
+type Query {
+
+	getNewsletter: Newsletter
+
+	getUser(username: String!, password: String!): User
+	
+	getUsers: [User]
+	
+	getPoolWithDetails(poolId: String!): Pool
+	
+	getPools: [Pool]
+	
+}
+
+type Mutation {
+
+	updateNewsletter(newsletter: NewsletterInput!): Newsletter
+
+	updateUser(username: String!, userInput: UserInput!): User
+	
+	addNewCrypto(input: [CryptoInput]): [Crypto]
+	
+	createUser(userInput: UserInput!): User!
+	
+	deleteUser(username: String!): User
+	
+	updatePassword(username: String!, password: String!): User
+	
+	createPool(poolDetailInput: [PoolDetailInput]): Pool
+	
+	updatePool(poolDetailInput: [PoolDetailInput]!, poolId: String!): Pool
+	
+	deletePool(poolId: String!): Pool
+	
+	deletePoolDetail(poolId: String!, currencySymbol: String!): Pool
+	
+	addUpdateDeletePoolUser(userInput: UserInput!, operation: String!): User
+	
+}
+
+input CryptoInput {
+	symbol: String!
+	name: String!
+}
+
+input PoolDetailInput {
+	changeUsername: String!
+	poolId: String!
+	currencySymbol: String!
+	volume: Float!
+}
+
+input UserInput {
+	username: String
+	email: String
+	password: String
+	role: String
+	poolDetails: [PoolUserInput]
+}
+
+input PoolUserInput {
+	username: String
+	poolId: String!
+	percentage: Float!
+	id: Int
+}
+
+input NewsletterInput {
+	id: Int!
+	username: String!
+	title: String!
+	paragraph: String!
+}
+
+type Newsletter {
+	id: Int
+	username: String!
+	title: String!
+	paragraph: String!
+	changeDate: String
+}
+
+type User {
+	id: Int!
+	username: String!
+	email: String
+	password: String
+	role: String
+	poolDetails: [PoolUser]
+}
+
+type PoolUser {
+	username: String
+	poolId: String!
+	percentage: Float!
+	userAmount: Float
+	pool: Pool
+}
+
+type Crypto {
+	id: Int!
+	symbol: String
+	name: String
+}
+
+type Currency {
+	id: String
+    currency: String
+    symbol: String
+    name: String
+    logo_url: String
+    price: String
+    price_date: String
+    price_timestamp: String
+}
+
+type Pool {
+	poolId: String
+	changeUsername: String
+	poolTotal: Float
+	details: [PoolDetail]
+	
+}
+
+type PoolDetail {
+	poolId: String
+	currencySymbol: String
+	volume: Float
+	currencyTotal: Float
+	changeUsername: String
+	currency: Currency
+}
